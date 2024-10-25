@@ -19,17 +19,17 @@ variable "release_version" {
   type        = string
 }
 
-variable "vpc_id" {
+variable "vpc_id" { // uno
   description = "VPC ID"
   type        = string
 }
 
-variable "subnet_ids" {
+variable "subnet_ids" { // uno
   description = "Subnet IDs"
   type        = list(string)
 }
 
-variable "service_ipv4_cidr" {
+variable "service_ipv4_cidr" { // uno
   description = "Service IPv4 CIDR for the Kubernetes cluster"
   type        = string
 }
@@ -37,7 +37,7 @@ variable "service_ipv4_cidr" {
 variable "enable_public_access" {
   description = "Enable public API server endpoint"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "coredns_version" {
@@ -79,7 +79,7 @@ variable "fargate_profile_name" {
 }
 */
 
-variable "node_group_configurations" {
+variable "node_group_configurations" { // spec - 비용 고민
   description = "List of node group configurations"
   type = list(object({
     name                = string

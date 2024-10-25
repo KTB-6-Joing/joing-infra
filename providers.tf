@@ -5,6 +5,7 @@ terraform {
       version = ">= 5.63.0"
     }
   }
+  // default_tags 추가 -> product
 }
 
 provider "aws" {

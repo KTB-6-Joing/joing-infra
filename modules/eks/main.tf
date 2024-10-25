@@ -1,35 +1,33 @@
-// 모듈 폴더 선언만 존재하게 작성
-
 provider "aws" {
   region = var.aws_region
 
-  default_tags {
+  default_tags { // providers.tf에 추가
     tags = {
       Environment = terraform.workspace
-      Product     = var.product
+      Product     = var.product // providers.tf 에 추가 후 고민
       Terraform   = "true"
     }
   }
 }
 
 # 현재 계정 정보 조회
-data "aws_caller_identity" "current" {}
+data "aws_caller_identity" "current" {} // 추후에 활용하지 않으면 삭제 
 
 # EKS 클러스터 생성
 resource "aws_eks_cluster" "main" {
   name     = "${var.product}-${terraform.workspace}"
-  version  = var.cluster_version
-  role_arn = aws_iam_role.eks_cluster.arn
+  version  = var.cluster_version // default 추가
+  role_arn = aws_iam_role.eks_cluster.arn // iam 추가
 
   vpc_config {
     subnet_ids              = var.subnet_ids
     endpoint_private_access = true
-    endpoint_public_access  = var.enable_public_access
+    endpoint_public_access  = var.enable_public_access  // true
     security_group_ids      = [aws_security_group.cluster.id]
   }
 
   kubernetes_network_config {
-    service_ipv4_cidr = var.service_ipv4_cidr
+    service_ipv4_cidr = var.service_ipv4_cidr  // 
   }
 
   enabled_cluster_log_types = ["api", "audit", "authenticator", "controllerManager", "scheduler"]
