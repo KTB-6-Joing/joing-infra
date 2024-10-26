@@ -16,7 +16,7 @@ module "eks" {
 }
 
 /*
-module "eks" {
+module "ecr" {
   source = "./modules/ecr"
 }
 */
