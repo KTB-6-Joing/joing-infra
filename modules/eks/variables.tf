@@ -4,34 +4,34 @@ variable "aws_region" {
   default     = "ap-northeast-2"
 }
 
+variable "account_alias" {
+  description = "Account alias"
+  type        = string
+  default     = "id"
+}
+
 variable "product" {
   description = "Product name"
   type        = string
+  default     = "eks"
 }
 
 variable "cluster_version" {
   description = "Kubernetes version"
   type        = string
+  default     = "1.31"
 }
 
 variable "release_version" {
   description = "EKS AMI release version"
   type        = string
+  default     = "1.31.0-20241011"
 }
 
-variable "vpc_id" { // uno
-  description = "VPC ID"
-  type        = string
-}
-
-variable "subnet_ids" { // uno
-  description = "Subnet IDs"
-  type        = list(string)
-}
-
-variable "service_ipv4_cidr" { // uno
+variable "service_ipv4_cidr" {
   description = "Service IPv4 CIDR for the Kubernetes cluster"
   type        = string
+  default     = "172.20.0.0/16"
 }
 
 variable "enable_public_access" {
@@ -43,29 +43,34 @@ variable "enable_public_access" {
 variable "coredns_version" {
   description = "CoreDNS addon version"
   type        = string
+  default     = "v1.11.3-eksbuild.1"
 }
 
 variable "kube_proxy_version" {
   description = "kube-proxy addon version"
   type        = string
+  default     = "v1.31.0-eksbuild.5"
 }
 
 variable "vpc_cni_version" {
   description = "VPC CNI addon version"
   type        = string
+  default     = "v1.18.5-eksbuild.1"
 }
 
 variable "ebs_csi_driver_version" {
   description = "EBS CSI driver addon version"
   type        = string
+  default     = "v1.36.0-eksbuild.1"
 }
 
 variable "pod_identity_agent_version" {
   description = "Pod Identity Agent addon version"
   type        = string
+  default     = "v1.3.2-eksbuild.2"
 }
 
-/*
+/* fargate block
 variable "fargate_enabled" {
   description = "Enable Fargate profile"
   type        = bool
@@ -79,7 +84,11 @@ variable "fargate_profile_name" {
 }
 */
 
-variable "node_group_configurations" { // spec - 비용 고민
+/*
+  nodeGroup block
+  Need to modify detailed specifications 
+*/
+variable "node_group_configurations" {
   description = "List of node group configurations"
   type = list(object({
     name                = string
@@ -93,6 +102,36 @@ variable "node_group_configurations" { // spec - 비용 고민
     node_max_size      = number
     labels             = map(string)
   }))
+  default = [
+    {
+      name                = "ondemand_1.31.0-20241011"
+      spot_enabled        = false
+      release_version     = "1.31.0-20241011"
+      disk_size           = 20
+      ami_type            = "AL2023_x86_64_STANDARD"
+      node_instance_types = ["t3.large"]
+      node_min_size       = 2
+      node_desired_size   = 2
+      node_max_size       = 2
+      labels = {
+        "cpu_chip" = "intel"
+      }
+    },
+    {
+      name                = "spot_1.31.0-20241011"
+      spot_enabled        = true
+      disk_size           = 20
+      release_version     = "1.31.0-20241011"
+      ami_type            = "AL2023_x86_64_STANDARD"
+      node_instance_types = ["t3.large"]
+      node_min_size       = 2
+      node_desired_size   = 2
+      node_max_size       = 10
+      labels = {
+        "cpu_chip" = "intel"
+      }
+    }
+  ]
 }
 
 variable "additional_security_group_ingress" {
@@ -103,12 +142,21 @@ variable "additional_security_group_ingress" {
     protocol    = string
     cidr_blocks = list(string)
   }))
-  default = []
+  default = [
+    {
+      from_port   = 443
+      to_port     = 443
+      protocol    = "TCP"
+      cidr_blocks = ["10.10.0.0/16"]
+    }
+  ]
 }
 
+// Need to modify specifications
 variable "aws_auth_master_users_arn" {
   description = "List of user ARNs to configure in aws-auth configmap"
   type        = list(string)
+  default     = ["arn:aws:iam::339713180480:user/sehoon"]
 }
 
 variable "aws_auth_master_roles_arn" {
@@ -123,17 +171,24 @@ variable "aws_auth_viewer_roles_arn" {
   default     = []
 }
 
+/*
+  KMS, SSM, secretManager block
+  Need to modify detailed specifications
+*/
 variable "external_secrets_access_kms_arns" {
   description = "List of KMS ARNs that External Secrets can access"
   type        = list(string)
+  default     = ["*"]
 }
 
 variable "external_secrets_access_ssm_arns" {
   description = "List of SSM ARNs that External Secrets can access"
   type        = list(string)
+  default     = ["*"]
 }
 
 variable "external_secrets_access_secretsmanager_arns" {
   description = "List of Secrets Manager ARNs that External Secrets can access"
   type        = list(string)
+  default     = ["*"]
 }
