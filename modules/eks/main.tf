@@ -1,3 +1,4 @@
+/*
 provider "aws" {
   region = var.aws_region
 
@@ -9,6 +10,7 @@ provider "aws" {
     }
   }
 }
+*/
 
 # 현재 계정 정보 조회
 data "aws_caller_identity" "current" {} // 추후에 활용하지 않으면 삭제 
