@@ -10,3 +10,13 @@ module "subnet" {
   vpc_id     = module.vpc.vpc_id
   igw_rtb_id = module.vpc.igw_rtb_id
 }
+
+module "eks" {
+  source = "./modules/eks"
+}
+
+/*
+module "eks" {
+  source = "./modules/ecr"
+}
+*/
