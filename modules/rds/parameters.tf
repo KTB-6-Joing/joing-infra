@@ -1,5 +1,16 @@
-resource "aws_ssm_parameter" "db_username" {
-  name        = "/database/master/username"
+resource "aws_ssm_parameter" "joing_mysql_endpoint" {
+  name        = "/joing/db/mysql/database_endpoint"
+  description = "Joing MySQL DB Endpoint"
+  type        = "SecureString"
+  value       = aws_db_instance.joing_mysql.endpoint
+
+  tags = {
+    service = "joing MySQL RDS Endpoint"
+  }
+}
+
+resource "aws_ssm_parameter" "joing_mysql_username" {
+  name        = "/joing/db/mysql/username"
   description = "Joing MySQL DB Username"
   type        = "SecureString"
   value       = var.db_master_username
@@ -9,8 +20,8 @@ resource "aws_ssm_parameter" "db_username" {
   }
 }
 
-resource "aws_ssm_parameter" "db_password" {
-  name        = "/database/master/password"
+resource "aws_ssm_parameter" "joing_mysql_password" {
+  name        = "/joing/db/mysql/password"
   description = "Joing MySQL DB Password"
   type        = "SecureString"
   value       = var.db_master_password
