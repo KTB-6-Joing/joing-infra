@@ -12,9 +12,18 @@ module "subnet" {
 }
 
 module "eks" {
-  source = "./modules/eks"
+  source                = "./modules/eks"
+  vpc_id                = module.vpc.vpc_id
+  cluster_subnet_ids    = module.subnet.eks_cluster
+  node_group_subnet_ids = module.subnet.eks_node_group
 }
 
 module "ecr" {
   source = "./modules/ecr"
+}
+
+module "rds" {
+  source            = "./modules/rds"
+  vpc_id            = module.vpc.vpc_id
+  subnet_group_name = module.subnet.mysql_subnet_group_name
 }

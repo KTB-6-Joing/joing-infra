@@ -28,10 +28,19 @@ variable "release_version" {
   default     = "1.31.0-20241011"
 }
 
-variable "service_ipv4_cidr" {
-  description = "Service IPv4 CIDR for the Kubernetes cluster"
+variable "vpc_id" {
+  description = "joing VPC ID"
   type        = string
-  default     = "172.20.0.0/16"
+}
+
+variable "cluster_subnet_ids" {
+  description = "EKS Cluster Subnet IDs"
+  type        = list(string)
+}
+
+variable "node_group_subnet_ids" {
+  description = "Node Group Subnet IDs"
+  type        = list(string)
 }
 
 variable "enable_public_access" {
@@ -94,13 +103,13 @@ variable "node_group_configurations" {
     name                = string
     spot_enabled        = bool
     release_version     = string
-    disk_size          = number
-    ami_type           = string
+    disk_size           = number
+    ami_type            = string
     node_instance_types = list(string)
-    node_min_size      = number
-    node_desired_size  = number
-    node_max_size      = number
-    labels             = map(string)
+    node_min_size       = number
+    node_desired_size   = number
+    node_max_size       = number
+    labels              = map(string)
   }))
   default = [
     {

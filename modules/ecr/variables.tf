@@ -32,8 +32,8 @@ variable "lifecycle_policy" {
   description = "Map of lifecycle policies for the repository"
   type = object({
     untagged_image_expiration_days = optional(number, 14)
-    max_image_count               = optional(number, 100)
-    protected_tags                = optional(list(string), ["latest", "stable", "production"])
+    max_image_count                = optional(number, 100)
+    protected_tags                 = optional(list(string), ["latest", "stable", "production"])
   })
   default = {}
 }
@@ -41,5 +41,5 @@ variable "lifecycle_policy" {
 variable "tags" {
   description = "A map of tags to add to ECR repository"
   type        = map(string)
-  default     = null    // provider의 default tags와 병용
+  default     = null // provider의 default tags와 병용
 }

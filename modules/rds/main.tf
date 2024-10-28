@@ -1,23 +1,45 @@
-resource "aws_db_instance" "default" {
-  allocated_storage    = 10
-  storage_type         = "gp2"
-  engine               = "mysql"
-  engine_version       = "5.7.16"
-  instance_class       = "db.t2.micro"
-  db_name              = "mydb"
-  username             = "foo"
-  password             = var.database_master_password
-  db_subnet_group_name = "my_database_subnet_group"
-  parameter_group_name = "default.mysql5.7"
-}
+resource "aws_db_instance" "joing_mysql" {
+  db_name                = "joing_mysql"
+  identifier             = "joing"
+  engine                 = "mysql"
+  engine_version         = var.settings.engine_version // 정의 해야지
+  instance_class         = var.settings.instance_class // 나중에 확인
+  allocated_storage      = 20                          // 나중에 확인
+  db_subnet_group_name   = var.subnet_group_name
+  vpc_security_group_ids = [aws_security_group.joing_database_mysql.id]
+  username               = var.db_master_username
+  password               = var.db_master_password
+  parameter_group_name   = aws_db_parameter_group.joing
+  multi_az               = false
+  skip_final_snapshot    = true
+  publicly_accessible    = true
+  enabled_cloudwatch_logs_exports = [
+    "audit",
+    "error",
+    "general",
+    "slowquery"
+  ]
 
-resource "aws_ssm_parameter" "secret" {
-  name        = "/production/database/password/master"
-  description = "The parameter description"
-  type        = "SecureString"
-  value       = var.database_master_password
+  lifecycle {
+    prevent_destroy = true
+  }
 
   tags = {
-    environment = "production"
+    Name = "DB instance"
+  }
+}
+
+resource "aws_db_parameter_group" "joing" {
+  name         = "joing-pg"
+  family       = "mysql8.0"
+  skip_destroy = true
+
+  parameter {
+    name  = "log_connections"
+    value = "1"
+  }
+
+  lifecycle {
+    create_before_destroy = true
   }
 }

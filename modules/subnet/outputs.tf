@@ -2,6 +2,10 @@ output "eks_cluster" {
   value = aws_subnet.eks_cluster[*].id
 }
 
+output "eks_node_group" {
+  value = concat(var.eks_node_group_subnet_public, var.eks_node_group_subnet_private)
+}
+
 output "eks_node_group_public" {
   value = aws_subnet.eks_node_group_public[*].id
 }

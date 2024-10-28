@@ -4,7 +4,7 @@ resource "aws_ecr_repository" "main" {
 
   encryption_configuration {
     encryption_type = var.encryption_type
-    kms_key        = var.kms_key
+    kms_key         = var.kms_key
   }
 
   image_scanning_configuration {
@@ -17,7 +17,7 @@ resource "aws_ecr_repository" "main" {
 # ECR Repository Policy
 resource "aws_ecr_repository_policy" "main" {
   repository = aws_ecr_repository.main.name
-  policy     = jsonencode({
+  policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
@@ -33,7 +33,7 @@ resource "aws_ecr_repository_policy" "main" {
         ]
         Condition = {
           StringEquals = {
-            "aws:PrincipalOrgID": data.aws_organizations_organization.current.id
+            "aws:PrincipalOrgID" : data.aws_organizations_organization.current.id
           }
         }
       }
@@ -97,5 +97,5 @@ resource "aws_ecr_replication_configuration" "main" {
 }
 
 # Data sources
-data "aws_caller_identity" "current" {}             // Current AWS User Info for Terraform running
-data "aws_organizations_organization" "current" {}  // Current AWS Organizations Info
+data "aws_caller_identity" "current" {}            // Current AWS User Info for Terraform running
+data "aws_organizations_organization" "current" {} // Current AWS Organizations Info
