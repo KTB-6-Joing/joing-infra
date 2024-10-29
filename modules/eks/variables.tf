@@ -165,7 +165,7 @@ variable "additional_security_group_ingress" {
 variable "aws_auth_master_users_arn" {
   description = "List of user ARNs to configure in aws-auth configmap"
   type        = list(string)
-  default     = ["arn:aws:iam::339713180480:user/sehoon"]
+  default     = ["arn:aws:iam::054037113048:user/cloud-ethan"]
 }
 
 variable "aws_auth_master_roles_arn" {

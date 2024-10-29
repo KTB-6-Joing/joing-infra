@@ -28,6 +28,12 @@ variable "kms_key" {
   default     = null
 }
 
+variable "replication_regions" {
+  description = "List of regions where ECR should be replicated"
+  type        = list(string)
+  default     = []
+}
+
 variable "lifecycle_policy" {
   description = "Map of lifecycle policies for the repository"
   type = object({

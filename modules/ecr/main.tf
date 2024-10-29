@@ -77,6 +77,9 @@ resource "aws_ecr_lifecycle_policy" "main" {
   })
 }
 
+# Data sources
+data "aws_caller_identity" "current" {}            // Current AWS User Info for Terraform running
+
 # Enable replication if needed
 resource "aws_ecr_replication_configuration" "main" {
   count = length(var.replication_regions) > 0 ? 1 : 0
@@ -84,18 +87,9 @@ resource "aws_ecr_replication_configuration" "main" {
   replication_configuration {
     rule {
       destination {
-        dynamic "region" {
-          for_each = var.replication_regions
-          content {
-            region      = region.value
-            registry_id = data.aws_caller_identity.current.account_id
-          }
-        }
+        region = var.replication_regions[0]  # 첫 번째 리전 사용
+        registry_id = data.aws_caller_identity.current.account_id
       }
     }
   }
 }
-
-# Data sources
-data "aws_caller_identity" "current" {}            // Current AWS User Info for Terraform running
-data "aws_organizations_organization" "current" {} // Current AWS Organizations Info

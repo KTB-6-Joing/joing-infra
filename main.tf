@@ -20,6 +20,8 @@ module "eks" {
 
 module "ecr" {
   source = "./modules/ecr"
+
+  replication_regions = ["ap-northeast-2", "ap-northeast-1"]
 }
 
 module "rds" {
