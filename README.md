@@ -19,13 +19,36 @@
   - 서비스마다 태그 달아서 비용 추적하기
 
 - ECR: gen-ai, rec-ai, be
-- EKS: Cluster, NodeGroup (medium 2, micro 1, spot 1)
-- RDS: MySQL 8.0.39, micro
+  - (ai 통합 예정)
+- EKS:
+  - Cluster
+  - NodeGroup: medium 2, medium-spot 2
+    - jenkins agent spot으로 띄울 예정
+      - affinity: jenkins=true
+- RDS: MySQL 8.0.39, db.t3.micro / public
 - Subnet:
   - EKS Cluster: Public 2
-  - EKS NodeGroup:
-    - Public: medium 1
-    - Private: medium 1 micro 1, spot 1
+  - EKS NodeGroup: Public: medium 2 (a, c), spot 2 (a, c)
   - RDS: Public 2
     - DB Subnet Group
 - VPC: VPC, IGW
+
+- .tfvars, .tfstate S3에 백업
+
+```
+.
+├── README.md
+├── main.tf
+├── modules
+│   ├── ecr
+│   ├── eks
+│   ├── rds
+│   ├── subnet
+│   └── vpc
+├── outputs.tf
+├── providers.tf
+├── secret.tfvars
+├── terraform.tfstate
+├── terraform.tfstate.backup
+└── variables.tf
+```

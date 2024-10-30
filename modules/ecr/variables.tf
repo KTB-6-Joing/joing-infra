@@ -23,7 +23,7 @@ variable "scan_on_push" {
 variable "replication_regions" {
   description = "List of regions where ECR should be replicated"
   type        = list(string)
-  default     = []
+  default     = ["ap-northeast-1", "us-east-1"]
 }
 
 variable "lifecycle_policy" {

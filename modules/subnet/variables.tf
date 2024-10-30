@@ -28,43 +28,32 @@ variable "eks_cluster_subnet" {
   }
 }
 
-variable "eks_node_group_subnet_public" {
+variable "eks_node_group_subnet_medium" {
   type = list(string)
 
   default = [
-    "192.168.32.0/24",
-    // "192.168.33.0/24",
+    "192.168.0.0/24",
+    "192.168.1.0/24",
   ]
-  description = "EKS NodeGroup Subnets - public"
-
-  validation {
-    condition     = length(var.eks_node_group_subnet_public) == 2
-    error_message = "The length of eks_node_group_subnet_public must be equal to 2"
-  }
+  description = "EKS NodeGroup Subnets Medium"
 }
 
-variable "eks_node_group_subnet_private" {
+variable "eks_node_group_subnet_spot" {
   type = list(string)
 
   default = [
-    "192.168.160.0/24",
-    "192.168.161.0/24",
-    "192.168.162.0/24",
+    "192.168.2.0/24",
+    "192.168.3.0/24",
   ]
-  description = "EKS NodeGroup Subnets - private"
-
-  validation {
-    condition     = length(var.eks_node_group_subnet_private) == 2
-    error_message = "The length of eks_node_group_subnet_private must be equal to 2"
-  }
+  description = "EKS NodeGroup Subnets"
 }
 
 variable "rds_subnet_public" {
   type = list(string)
 
   default = [
-    "192.168.34.0/24",
-    "192.168.35.0/24",
+    "192.168.32.0/24",
+    "192.168.33.0/24",
   ]
   description = "RDS Subnets - public"
 
@@ -72,6 +61,13 @@ variable "rds_subnet_public" {
     condition     = length(var.rds_subnet_public) == 2
     error_message = "The length of rds_subnet_public must be equal to 2"
   }
+}
+
+variable "availability_zone_1" {
+  type = string
+
+  default     = "ap-northeast-2a"
+  description = "1 Availability Zone"
 }
 
 variable "availability_zone_2" {
@@ -86,6 +82,21 @@ variable "availability_zone_2" {
   validation {
     condition     = length(var.availability_zone_2) == 2
     error_message = "The length of availability_zone_2 must be equal to 2"
+  }
+}
+
+variable "availability_zone_2a" {
+  type = list(string)
+
+  default = [
+    "ap-northeast-2a",
+    "ap-northeast-2c",
+  ]
+  description = "2 Availability Zones"
+
+  validation {
+    condition     = length(var.availability_zone_2a) == 2
+    error_message = "The length of availability_zone_2a must be equal to 2"
   }
 }
 

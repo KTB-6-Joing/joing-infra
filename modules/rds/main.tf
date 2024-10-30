@@ -3,8 +3,8 @@ resource "aws_db_instance" "joing_mysql" { // KMS 영향 확인
   identifier             = "joing"
   engine                 = "mysql"
   engine_version         = var.settings.engine_version
-  instance_class         = var.settings.instance_class // 나중에 확인
-  allocated_storage      = 20                          // 나중에 확인
+  instance_class         = var.settings.instance_class
+  allocated_storage      = 20
   db_subnet_group_name   = var.subnet_group_name
   vpc_security_group_ids = [aws_security_group.joing_database_mysql.id]
   username               = var.db_master_username
@@ -33,11 +33,6 @@ resource "aws_db_parameter_group" "joing" {
   name         = "joing-pg"
   family       = "mysql8.0"
   skip_destroy = true
-
-  parameter {
-    name  = "log_connections"
-    value = "1"
-  }
 
   lifecycle {
     create_before_destroy = true

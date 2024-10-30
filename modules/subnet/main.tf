@@ -11,29 +11,33 @@ resource "aws_subnet" "eks_cluster" {
   }
 }
 
-resource "aws_subnet" "eks_node_group_public" {
-  count = length(var.eks_node_group_subnet_public)
+resource "aws_subnet" "eks_node_group_subnet_medium" {
+  count = length(var.eks_node_group_subnet_medium)
 
-  vpc_id            = var.vpc_id
-  cidr_block        = element(var.eks_node_group_subnet_public, count.index)
-  availability_zone = element(var.availability_zone_2, count.index)
+  vpc_id                  = var.vpc_id
+  cidr_block              = element(var.eks_node_group_subnet_medium, count.index)
+  availability_zone       = element(var.availability_zone_2, count.index)
+  map_public_ip_on_launch = true
 
   tags = {
-    name       = "eks_node_group_subnet-${count.index + 1}"
+    name       = "eks_node_group_subnet-medium"
     visibility = "public"
+    instance   = "medium"
   }
 }
 
-resource "aws_subnet" "eks_node_group_private" {
-  count = length(var.eks_node_group_subnet_private)
+resource "aws_subnet" "eks_node_group_subnet_spot" {
+  count = length(var.eks_node_group_subnet_spot)
 
-  vpc_id            = var.vpc_id
-  cidr_block        = element(var.eks_node_group_subnet_private, count.index)
-  availability_zone = element(var.availability_zone_2, count.index)
+  vpc_id                  = var.vpc_id
+  cidr_block              = element(var.eks_node_group_subnet_spot, count.index)
+  availability_zone       = element(var.availability_zone_2a, count.index)
+  map_public_ip_on_launch = true
 
   tags = {
-    name       = "eks_node_group_subnet-${count.index + 1}"
-    visibility = "private"
+    name       = "eks_node_group_subnet-spot"
+    visibility = "public"
+    instance   = "spot"
   }
 }
 

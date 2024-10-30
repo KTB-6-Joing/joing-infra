@@ -26,12 +26,13 @@ resource "aws_eks_cluster" "main" {
 
 # 노드 그룹 생성
 resource "aws_eks_node_group" "main" {
-  for_each = { for idx, config in var.node_group_configurations : config.name => config }
+  // for_each = { for idx, config in var.node_group_configurations : config.name => config }
+  for_each = { for idx, config in var.node_group_configurations : idx => config }
 
   cluster_name    = aws_eks_cluster.main.name
   node_group_name = each.value.name
   node_role_arn   = aws_iam_role.eks_node_group.arn
-  subnet_ids      = var.node_group_subnet_ids
+  subnet_ids      = var.node_group_subnet_ids[each.key]
 
   ami_type        = each.value.ami_type
   capacity_type   = each.value.spot_enabled ? "SPOT" : "ON_DEMAND"
@@ -48,20 +49,20 @@ resource "aws_eks_node_group" "main" {
   labels = merge(
     each.value.labels,
     {
-      "eks.amazonaws.com/nodegroup"    = each.value.name
-      "eks.amazonaws.com/capacityType" = each.value.spot_enabled ? "SPOT" : "ON_DEMAND"
+      "nodegroup"    = each.value.name
+      "capacityType" = each.value.spot_enabled ? "SPOT" : "ON_DEMAND"
     }
   )
 
   # 스팟 인스턴스에 대한 테인트 설정
-  dynamic "taint" {
-    for_each = each.value.spot_enabled ? [1] : []
-    content {
-      key    = "spot"
-      value  = "true"
-      effect = "NO_SCHEDULE"
-    }
-  }
+#  dynamic "taint" {
+#    for_each = each.value.jenkins_enabled ? [1] : []
+#    content {
+#      key    = "jenkins"
+#      value  = "true"
+#      effect = "NO_SCHEDULE"
+#    }
+#  }
 
   depends_on = [
     aws_iam_role_policy_attachment.eks_node_group_policy,
