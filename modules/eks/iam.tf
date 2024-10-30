@@ -1,5 +1,7 @@
 # EKS Cluster IAM Role
 
+data "aws_caller_identity" "current" {}
+
 resource "aws_iam_role" "eks_cluster" {
   name = "${var.product}-${terraform.workspace}-cluster-role"
 
