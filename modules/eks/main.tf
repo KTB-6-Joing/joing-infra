@@ -22,6 +22,9 @@ resource "aws_eks_cluster" "main" {
     aws_iam_role_policy_attachment.eks_cluster_policy,
     aws_iam_role_policy_attachment.eks_service_policy,
   ]
+  tags = {
+    "alpha.eksctl.io/cluster-oidc-enabled" = "true"
+  }
 }
 
 # 노드 그룹 생성

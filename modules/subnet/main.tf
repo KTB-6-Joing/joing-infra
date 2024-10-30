@@ -23,6 +23,8 @@ resource "aws_subnet" "eks_node_group_subnet_medium" {
     name       = "eks_node_group_subnet-medium"
     visibility = "public"
     instance   = "medium"
+    "kubernetes.io/role/elb" = 1
+    "kubernetes.io/cluster/eks-default" = "owned"
   }
 }
 
