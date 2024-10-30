@@ -1,19 +1,7 @@
 /*
-provider "aws" {
-  region = var.aws_region
-
-  default_tags { // providers.tf에 추가
-    tags = {
-      Environment = terraform.workspace
-      Product     = var.product // providers.tf 에 추가 후 고민
-      Terraform   = "true"
-    }
-  }
-}
-*/
-
 # 현재 계정 정보 조회
 data "aws_caller_identity" "current" {} // 추후에 활용하지 않으면 삭제 
+*/
 
 # EKS 클러스터 생성
 resource "aws_eks_cluster" "main" {
@@ -61,8 +49,19 @@ resource "aws_eks_node_group" "main" {
     each.value.labels,
     {
       "eks.amazonaws.com/nodegroup" = each.value.name
+      "eks.amazonaws.com/capacityType" = each.value.spot_enabled ? "SPOT" : "ON_DEMAND"
     }
   )
+
+  # 스팟 인스턴스에 대한 테인트 설정
+  dynamic "taint" {
+    for_each = each.value.spot_enabled ? [1] : []
+    content {
+      key    = "spot"
+      value  = "true"
+      effect = "NO_SCHEDULE"
+    }
+  }
 
   depends_on = [
     aws_iam_role_policy_attachment.eks_node_group_policy,
@@ -93,16 +92,18 @@ resource "aws_eks_addon" "vpc_cni" {
   resolve_conflicts_on_update = "OVERWRITE"
 }
 
-resource "aws_eks_addon" "ebs_csi" { // 확인 필요
-  cluster_name                = aws_eks_cluster.main.name
-  addon_name                  = "aws-ebs-csi-driver"
-  addon_version               = var.ebs_csi_driver_version
-  resolve_conflicts_on_update = "OVERWRITE"
-}
-
 resource "aws_eks_addon" "pod_identity_agent" {
   cluster_name                = aws_eks_cluster.main.name
   addon_name                  = "eks-pod-identity-agent"
   addon_version               = var.pod_identity_agent_version
   resolve_conflicts_on_update = "OVERWRITE"
 }
+
+/*
+resource "aws_eks_addon" "ebs_csi" { // 확인 필요
+  cluster_name                = aws_eks_cluster.main.name
+  addon_name                  = "aws-ebs-csi-driver"
+  addon_version               = var.ebs_csi_driver_version
+  resolve_conflicts_on_update = "OVERWRITE"
+}
+*/

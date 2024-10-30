@@ -5,9 +5,15 @@ terraform {
       version = ">= 5.63.0"
     }
   }
-  // default_tags 추가 -> product
 }
 
 provider "aws" {
   region = var.aws_region
+
+  default_tags {
+    tags = {
+      Environment = terraform.workspace
+      Terraform   = "true"
+    }
+  }
 }

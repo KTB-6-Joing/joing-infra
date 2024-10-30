@@ -67,19 +67,21 @@ variable "vpc_cni_version" {
   default     = "v1.18.5-eksbuild.1"
 }
 
-variable "ebs_csi_driver_version" {
-  description = "EBS CSI driver addon version"
-  type        = string
-  default     = "v1.36.0-eksbuild.1"
-}
-
 variable "pod_identity_agent_version" {
   description = "Pod Identity Agent addon version"
   type        = string
   default     = "v1.3.2-eksbuild.2"
 }
 
-/* fargate block
+/*
+variable "ebs_csi_driver_version" {
+  description = "EBS CSI driver addon version"
+  type        = string
+  default     = "v1.36.0-eksbuild.1"
+}
+*/
+
+/* fargate block --> 미사용 결정
 variable "fargate_enabled" {
   description = "Enable Fargate profile"
   type        = bool
@@ -118,12 +120,13 @@ variable "node_group_configurations" {
       release_version     = "1.31.0-20241011"
       disk_size           = 20
       ami_type            = "AL2023_x86_64_STANDARD"
-      node_instance_types = ["t3.large"]
+      node_instance_types = ["t3.large"] // 비용 계산
       node_min_size       = 2
       node_desired_size   = 2
-      node_max_size       = 2
+      node_max_size       = 2 // 온디맨드는 2개로 고정.
       labels = {
         "cpu_chip" = "intel"
+        "node-type" = "ondemand"
       }
     },
     {
@@ -133,11 +136,12 @@ variable "node_group_configurations" {
       release_version     = "1.31.0-20241011"
       ami_type            = "AL2023_x86_64_STANDARD"
       node_instance_types = ["t3.large"]
-      node_min_size       = 2
-      node_desired_size   = 2
-      node_max_size       = 10
+      node_min_size       = 0
+      node_desired_size   = 0
+      node_max_size       = 1 // 최대 1개까지 스케일아웃.
       labels = {
         "cpu_chip" = "intel"
+        "node-type" = "spot"
       }
     }
   ]

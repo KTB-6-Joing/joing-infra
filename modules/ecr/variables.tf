@@ -1,7 +1,11 @@
-variable "repository_name" {
-  description = "Name of the ECR repository"
-  type        = string
-  default     = "joing-ecr-repo"
+variable "repositories" {
+  description = "Names of the ECR repositories"
+  type = map(string)
+  default = {
+    gen_ai = "joing-gen-ai-repo"
+    rec_ai = "joing-rec-ai-repo"
+    be     = "joing-backend-repo"
+  }
 }
 
 variable "image_tag_mutability" {
@@ -14,18 +18,6 @@ variable "scan_on_push" {
   description = "Indicates whether images are scanned after being pushed to the repository"
   type        = bool
   default     = true
-}
-
-variable "encryption_type" {
-  description = "The encryption type for the repository (AES256 or KMS)"
-  type        = string
-  default     = "KMS"
-}
-
-variable "kms_key" {
-  description = "The ARN of the KMS key to use when encryption_type is KMS. If not specified, uses the default AWS managed key"
-  type        = string
-  default     = null
 }
 
 variable "replication_regions" {

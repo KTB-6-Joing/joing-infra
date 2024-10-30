@@ -1,11 +1,8 @@
-resource "aws_ecr_repository" "main" {
-  name                 = var.repository_name
+# ecr repository list - gen-ai, rec-ai, be
+resource "aws_ecr_repository" "repositories" {
+  for_each             = var.repositories
+  name                 = each.value
   image_tag_mutability = var.image_tag_mutability
-
-  encryption_configuration {
-    encryption_type = var.encryption_type
-    kms_key         = var.kms_key
-  }
 
   image_scanning_configuration {
     scan_on_push = var.scan_on_push
@@ -15,8 +12,10 @@ resource "aws_ecr_repository" "main" {
 }
 
 # ECR Repository Policy
-resource "aws_ecr_repository_policy" "main" {
-  repository = aws_ecr_repository.main.name
+resource "aws_ecr_repository_policy" "repositories" {
+  for_each   = var.repositories
+  repository = aws_ecr_repository.repositories[each.key].name
+
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -31,19 +30,15 @@ resource "aws_ecr_repository_policy" "main" {
           "ecr:BatchGetImage",
           "ecr:BatchCheckLayerAvailability"
         ]
-        Condition = {
-          StringEquals = {
-            "aws:PrincipalOrgID" : data.aws_organizations_organization.current.id
-          }
-        }
       }
     ]
   })
 }
 
 # Lifecycle Policy
-resource "aws_ecr_lifecycle_policy" "main" {
-  repository = aws_ecr_repository.main.name
+resource "aws_ecr_lifecycle_policy" "repositories" {
+  for_each   = var.repositories
+  repository = aws_ecr_repository.repositories[each.key].name
 
   policy = jsonencode({
     rules = concat([

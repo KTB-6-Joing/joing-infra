@@ -1,6 +1,3 @@
-// 생성하고 확인해야하는 ouput 값 작성
-// 가능하면 로컬에 해당 값은 백업하기
-
 output "cluster_id" {
   description = "The name of the EKS cluster"
   value       = aws_eks_cluster.main.id

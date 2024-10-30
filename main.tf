@@ -21,7 +21,7 @@ module "eks" {
 module "ecr" {
   source = "./modules/ecr"
 
-  replication_regions = ["ap-northeast-2", "ap-northeast-1"]
+  replication_regions = ["ap-northeast-2", "ap-northeast-1"] // 비용 고려
 }
 
 module "rds" {
