@@ -1,6 +1,6 @@
 variable "repositories" {
   description = "Names of the ECR repositories"
-  type = map(string)
+  type        = map(string)
   default = {
     gen_ai = "joing-gen-ai-repo"
     rec_ai = "joing-rec-ai-repo"

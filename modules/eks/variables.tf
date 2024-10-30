@@ -115,17 +115,32 @@ variable "node_group_configurations" {
   }))
   default = [
     {
-      name                = "ondemand_1.31.0-20241011"
+      name                = "ondemand_1.31.0-20241011-medium"
       spot_enabled        = false
       release_version     = "1.31.0-20241011"
       disk_size           = 20
       ami_type            = "AL2023_x86_64_STANDARD"
-      node_instance_types = ["t3.large"] // 비용 계산
+      node_instance_types = ["t3.medium"] // 비용 계산
       node_min_size       = 2
       node_desired_size   = 2
-      node_max_size       = 2 // 온디맨드는 2개로 고정.
+      node_max_size       = 2 // 온디맨드 고정
       labels = {
-        "cpu_chip" = "intel"
+        "cpu_chip"  = "intel"
+        "node-type" = "ondemand"
+      }
+    },
+    {
+      name                = "ondemand_1.31.0-20241011-micro"
+      spot_enabled        = false
+      release_version     = "1.31.0-20241011"
+      disk_size           = 20
+      ami_type            = "AL2023_x86_64_STANDARD"
+      node_instance_types = ["t2.micro"] // 비용 계산
+      node_min_size       = 1
+      node_desired_size   = 1
+      node_max_size       = 1 // 온디맨드 고정
+      labels = {
+        "cpu_chip"  = "intel"
         "node-type" = "ondemand"
       }
     },
@@ -140,7 +155,7 @@ variable "node_group_configurations" {
       node_desired_size   = 0
       node_max_size       = 1 // 최대 1개까지 스케일아웃.
       labels = {
-        "cpu_chip" = "intel"
+        "cpu_chip"  = "intel"
         "node-type" = "spot"
       }
     }

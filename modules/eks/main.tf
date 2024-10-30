@@ -48,7 +48,7 @@ resource "aws_eks_node_group" "main" {
   labels = merge(
     each.value.labels,
     {
-      "eks.amazonaws.com/nodegroup" = each.value.name
+      "eks.amazonaws.com/nodegroup"    = each.value.name
       "eks.amazonaws.com/capacityType" = each.value.spot_enabled ? "SPOT" : "ON_DEMAND"
     }
   )

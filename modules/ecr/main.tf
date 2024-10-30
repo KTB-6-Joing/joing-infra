@@ -73,7 +73,7 @@ resource "aws_ecr_lifecycle_policy" "repositories" {
 }
 
 # Data sources
-data "aws_caller_identity" "current" {}            // Current AWS User Info for Terraform running
+data "aws_caller_identity" "current" {} // Current AWS User Info for Terraform running
 
 # Enable replication if needed
 resource "aws_ecr_replication_configuration" "main" {
@@ -82,7 +82,7 @@ resource "aws_ecr_replication_configuration" "main" {
   replication_configuration {
     rule {
       destination {
-        region = var.replication_regions[0]  # 첫 번째 리전 사용
+        region      = var.replication_regions[0] # 첫 번째 리전 사용
         registry_id = data.aws_caller_identity.current.account_id
       }
     }

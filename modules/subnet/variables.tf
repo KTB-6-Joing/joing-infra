@@ -33,7 +33,7 @@ variable "eks_node_group_subnet_public" {
 
   default = [
     "192.168.32.0/24",
-    "192.168.33.0/24",
+    // "192.168.33.0/24",
   ]
   description = "EKS NodeGroup Subnets - public"
 
@@ -49,6 +49,7 @@ variable "eks_node_group_subnet_private" {
   default = [
     "192.168.160.0/24",
     "192.168.161.0/24",
+    "192.168.162.0/24",
   ]
   description = "EKS NodeGroup Subnets - private"
 
@@ -77,8 +78,8 @@ variable "availability_zone_2" {
   type = list(string)
 
   default = [
-    "ap-northeast-2a",
     "ap-northeast-2c",
+    "ap-northeast-2a",
   ]
   description = "2 Availability Zones"
 

@@ -15,4 +15,17 @@
   - terraform 관리가 필요함
   - @uno 담당
 - 태깅
+
   - 서비스마다 태그 달아서 비용 추적하기
+
+- ECR: gen-ai, rec-ai, be
+- EKS: Cluster, NodeGroup (medium 2, micro 1, spot 1)
+- RDS: MySQL 8.0.39, micro
+- Subnet:
+  - EKS Cluster: Public 2
+  - EKS NodeGroup:
+    - Public: medium 1
+    - Private: medium 1 micro 1, spot 1
+  - RDS: Public 2
+    - DB Subnet Group
+- VPC: VPC, IGW
