@@ -1,4 +1,4 @@
-# ecr repository list - gen-ai, rec-ai, be
+# ecr repository list - ai, be
 resource "aws_ecr_repository" "repositories" {
   for_each             = var.repositories
   name                 = each.value
@@ -82,7 +82,7 @@ resource "aws_ecr_replication_configuration" "main" {
   replication_configuration {
     rule {
       destination {
-        region      = var.replication_regions[0] # 첫 번째 리전 사용
+        region      = var.replication_regions[0]
         registry_id = data.aws_caller_identity.current.account_id
       }
     }
