@@ -20,10 +20,10 @@ resource "aws_subnet" "eks_node_group_subnet_medium" {
   map_public_ip_on_launch = true
 
   tags = {
-    name       = "eks_node_group_subnet-medium"
-    visibility = "public"
-    instance   = "medium"
-    "kubernetes.io/role/elb" = 1
+    name                                = "eks_node_group_subnet-medium"
+    visibility                          = "public"
+    instance                            = "medium"
+    "kubernetes.io/role/elb"            = 1
     "kubernetes.io/cluster/eks-default" = "owned"
   }
 }
@@ -62,5 +62,17 @@ resource "aws_db_subnet_group" "mysql_subnet_group" {
 
   tags = {
     Name = "RDS MySQL subnet group"
+  }
+}
+
+resource "aws_subnet" "ec2_public" {
+  vpc_id                  = var.vpc_id
+  cidr_block              = var.ec2_subnet_public
+  availability_zone       = var.availability_zone_1
+  map_public_ip_on_launch = true
+
+  tags = {
+    Name       = "eks_ec2_subnet-public"
+    visibility = "public"
   }
 }

@@ -9,6 +9,13 @@ module "subnet" {
   igw_rtb_id = module.vpc.igw_rtb_id
 }
 
+module "ec2" {
+  source = "./modules/ec2"
+
+  vpc_id        = module.vpc.vpc_id
+  public_subnet = module.subnet.ec2_public
+}
+
 module "eks" {
   source                = "./modules/eks"
   vpc_id                = module.vpc.vpc_id

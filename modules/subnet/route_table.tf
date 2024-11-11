@@ -21,3 +21,8 @@ resource "aws_route_table_association" "rds_public" {
   subnet_id      = aws_subnet.rds_public[count.index].id
   route_table_id = var.igw_rtb_id
 }
+
+resource "aws_route_table_association" "ec2_public" {
+  subnet_id      = aws_subnet.ec2_public.id
+  route_table_id = var.igw_rtb_id
+}

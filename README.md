@@ -18,20 +18,30 @@
 
   - 서비스마다 태그 달아서 비용 추적하기
 
+- EC2: redis-instance(프리티어)
 - ECR: gen-ai, rec-ai, be
   - (ai 통합 예정)
 - EKS:
   - Cluster
   - NodeGroup: medium 2, medium-spot 2
-    - jenkins agent spot으로 띄울 예정
+    - jenkins agent spot으로 띄울 예정 - 뜨는데 1분 소요
       - affinity: jenkins=true
 - RDS: MySQL 8.0.39, db.t3.micro / public
 - Subnet:
+  - EC2: Public 1
   - EKS Cluster: Public 2
   - EKS NodeGroup: Public: medium 2 (a, c), spot 2 (a, c)
   - RDS: Public 2
     - DB Subnet Group
 - VPC: VPC, IGW
+- 로드밸런서 및 리스너: 별도 생성
+  - 로드밸런서: Ingress ALB 자동 생성
+  - 리스너: HTTPS 리스터 생성
+  - 로드밸런서 보안그룹: 80, 443 추가
+- ACM 인증서: 별도 생성
+
+  - jenkins
+  -
 
 - .tfvars, .tfstate S3에 백업
 

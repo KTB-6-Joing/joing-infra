@@ -16,6 +16,10 @@ output "rds_public" {
   value = aws_subnet.rds_public[*].id
 }
 
+output "ec2_public" {
+  value = aws_subnet.ec2_public.id
+}
+
 output "mysql_subnet_group_name" {
   value = aws_db_subnet_group.mysql_subnet_group.name
 }

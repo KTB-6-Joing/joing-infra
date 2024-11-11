@@ -63,6 +63,12 @@ variable "rds_subnet_public" {
   }
 }
 
+variable "ec2_subnet_public" {
+  type        = string
+  default     = "192.168.40.0/24"
+  description = "EC2 Subnets - public"
+}
+
 variable "availability_zone_1" {
   type = string
 
