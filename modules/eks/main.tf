@@ -58,14 +58,14 @@ resource "aws_eks_node_group" "main" {
   )
 
   # 스팟 인스턴스에 대한 테인트 설정
-#  dynamic "taint" {
-#    for_each = each.value.jenkins_enabled ? [1] : []
-#    content {
-#      key    = "jenkins"
-#      value  = "true"
-#      effect = "NO_SCHEDULE"
-#    }
-#  }
+  #  dynamic "taint" {
+  #    for_each = each.value.jenkins_enabled ? [1] : []
+  #    content {
+  #      key    = "jenkins"
+  #      value  = "true"
+  #      effect = "NO_SCHEDULE"
+  #    }
+  #  }
 
   depends_on = [
     aws_iam_role_policy_attachment.eks_node_group_policy,

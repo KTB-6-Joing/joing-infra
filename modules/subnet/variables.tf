@@ -28,24 +28,24 @@ variable "eks_cluster_subnet" {
   }
 }
 
-variable "eks_node_group_subnet_medium" {
+variable "eks_node_group_subnet_ondemand" {
   type = list(string)
 
   default = [
-    "192.168.0.0/24",
-    "192.168.1.0/24",
+    "192.168.10.0/24",
+    "192.168.11.0/24",
   ]
-  description = "EKS NodeGroup Subnets Medium"
+  description = "EKS NodeGroup Subnets OnDemand"
 }
 
 variable "eks_node_group_subnet_spot" {
   type = list(string)
 
   default = [
-    "192.168.2.0/24",
-    "192.168.3.0/24",
+    "192.168.12.0/24",
+    "192.168.13.0/24",
   ]
-  description = "EKS NodeGroup Subnets"
+  description = "EKS NodeGroup Subnets Spot"
 }
 
 variable "rds_subnet_public" {

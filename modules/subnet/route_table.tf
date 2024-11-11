@@ -4,9 +4,9 @@ resource "aws_route_table_association" "eks_cluster" {
   route_table_id = var.igw_rtb_id
 }
 
-resource "aws_route_table_association" "eks_node_group_subnet_medium" {
-  count          = length(var.eks_node_group_subnet_medium)
-  subnet_id      = aws_subnet.eks_node_group_subnet_medium[count.index].id
+resource "aws_route_table_association" "eks_node_group_subnet_ondemand" {
+  count          = length(var.eks_node_group_subnet_ondemand)
+  subnet_id      = aws_subnet.eks_node_group_subnet_ondemand[count.index].id
   route_table_id = var.igw_rtb_id
 }
 

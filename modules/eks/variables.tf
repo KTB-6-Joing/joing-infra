@@ -115,17 +115,17 @@ variable "node_group_configurations" {
   }))
   default = [
     {
-      name                = "ondemand_medium"
+      name                = "ondemand_large"
       spot_enabled        = false
       release_version     = "1.31.0-20241011"
-      disk_size           = 20
+      disk_size           = 40
       ami_type            = "AL2023_x86_64_STANDARD"
-      node_instance_types = ["t3.medium"]
+      node_instance_types = ["t3a.large"]
       node_min_size       = 2
       node_desired_size   = 2
       node_max_size       = 2 // 온디맨드 고정
       labels = {
-        "cpu_chip"  = "intel"
+        "cpu_chip"  = "amd" 
         "node-type" = "ondemand"
       }
     },
@@ -144,7 +144,7 @@ variable "node_group_configurations" {
         "node-type" = "spot"
         "jenkins"   = "true"
       },
-    }
+    },
   ]
 }
 

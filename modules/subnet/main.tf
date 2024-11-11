@@ -11,23 +11,6 @@ resource "aws_subnet" "eks_cluster" {
   }
 }
 
-resource "aws_subnet" "eks_node_group_subnet_medium" {
-  count = length(var.eks_node_group_subnet_medium)
-
-  vpc_id                  = var.vpc_id
-  cidr_block              = element(var.eks_node_group_subnet_medium, count.index)
-  availability_zone       = element(var.availability_zone_2, count.index)
-  map_public_ip_on_launch = true
-
-  tags = {
-    name                                = "eks_node_group_subnet-medium"
-    visibility                          = "public"
-    instance                            = "medium"
-    "kubernetes.io/role/elb"            = 1
-    "kubernetes.io/cluster/eks-default" = "owned"
-  }
-}
-
 resource "aws_subnet" "eks_node_group_subnet_spot" {
   count = length(var.eks_node_group_subnet_spot)
 
@@ -40,6 +23,23 @@ resource "aws_subnet" "eks_node_group_subnet_spot" {
     name       = "eks_node_group_subnet-spot"
     visibility = "public"
     instance   = "spot"
+  }
+}
+
+resource "aws_subnet" "eks_node_group_subnet_ondemand" {
+  count = length(var.eks_node_group_subnet_ondemand)
+
+  vpc_id                  = var.vpc_id
+  cidr_block              = element(var.eks_node_group_subnet_ondemand, count.index)
+  availability_zone       = element(var.availability_zone_2, count.index)
+  map_public_ip_on_launch = true
+
+  tags = {
+    name                                = "eks_node_group_subnet-ondemand"
+    visibility                          = "public"
+    instance                            = "large"
+    "kubernetes.io/role/elb"            = 1
+    "kubernetes.io/cluster/eks-default" = "owned"
   }
 }
 
