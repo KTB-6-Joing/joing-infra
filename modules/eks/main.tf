@@ -16,7 +16,7 @@ resource "aws_eks_cluster" "main" {
     security_group_ids      = [aws_security_group.cluster.id]
   }
 
-  enabled_cluster_log_types = ["api", "audit", "authenticator", "controllerManager", "scheduler"]
+  enabled_cluster_log_types = ["api", "audit", "authenticator"]
 
   depends_on = [
     aws_iam_role_policy_attachment.eks_cluster_policy,
