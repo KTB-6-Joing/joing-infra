@@ -130,12 +130,12 @@ variable "node_group_configurations" {
       }
     },
     {
-      name                = "spot_medium"
+      name                = "spot_large"
       spot_enabled        = true
-      disk_size           = 20
+      disk_size           = 40
       release_version     = "1.31.0-20241011"
       ami_type            = "AL2023_x86_64_STANDARD"
-      node_instance_types = ["t3.medium"]
+      node_instance_types = ["t3a.large"]
       node_min_size       = 0
       node_desired_size   = 0
       node_max_size       = 2 // 최대 2개까지 스케일아웃.
