@@ -6,6 +6,7 @@ resource "aws_db_instance" "joing_mysql" { // KMS 영향 확인
   instance_class         = var.settings.instance_class
   allocated_storage      = 20
   db_subnet_group_name   = var.subnet_group_name
+  deletion_protection    = true
   vpc_security_group_ids = [aws_security_group.joing_database_mysql.id]
   username               = var.db_master_username
   password               = var.db_master_password
