@@ -15,29 +15,6 @@ resource "aws_security_group" "joing_redis" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = {
-    Name = "joing Redis Securiry Group"
-  }
-}
-
-
-resource "aws_security_group" "joing_rabbitmq" {
-  vpc_id = var.vpc_id
-
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
   ingress {
     from_port   = 5672
     to_port     = 5672
@@ -60,6 +37,6 @@ resource "aws_security_group" "joing_rabbitmq" {
   }
 
   tags = {
-    Name = "joing RabbitMQ Securiry Group"
+    Name = "joing Test Securiry Group"
   }
 }
