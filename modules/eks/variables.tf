@@ -125,7 +125,7 @@ variable "node_group_configurations" {
       node_desired_size   = 2
       node_max_size       = 2 // 온디맨드 고정
       labels = {
-        "cpu_chip"  = "amd" 
+        "cpu_chip"  = "amd"
         "node-type" = "ondemand"
       }
     },
